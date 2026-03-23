@@ -1,6 +1,6 @@
 # MarkovChainsCalculatorApp
 
-<img src="https://github.com/user-attachments/assets/89551101-a474-4ef9-aacb-0f86462e60df" alt="MarkovChainsCalculatorApp Screenshot" width="100%" />
+<img src="https://github.com/user-attachments/assets/ebda2ce7-2ae1-4113-81bd-b5d155af72f7" alt="MarkovChainsCalculatorApp Screenshot" width="100%"/>
 
 A comprehensive Markov chain analysis solution featuring a WPF desktop application and a RESTful API, built with modern .NET architecture patterns, dependency injection, and comprehensive unit testing.
 
