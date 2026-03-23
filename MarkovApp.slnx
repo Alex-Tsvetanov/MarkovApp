@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="MarkovApp.Api/MarkovApp.Api.csproj" Id="f071dca0-ad45-4c4a-b007-d709761a8a7f" />
+  <Project Path="MarkovApp.Tests/MarkovApp.Tests.csproj" />
+  <Project Path="MarkovApp/MarkovApp.csproj" />
+</Solution>

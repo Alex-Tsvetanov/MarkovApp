@@ -1,0 +1,39 @@
+﻿<Window x:Class="MarkovApp.Views.EdgeProperties"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edge Properties"
+        Height="260" Width="400"
+        Background="{StaticResource AppBackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Border Style="{StaticResource DialogBorderStyle}">
+            <StackPanel Width="{StaticResource DialogContentWidth}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text="Edge Value:" 
+                           Style="{StaticResource DialogHeaderStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="{StaticResource SmallBottomMargin}"/>
+
+                <TextBox Text="{Binding EdgeValueText}" 
+                         Width="{StaticResource InputTextBoxWidth}"
+                         Style="{StaticResource DialogTextBoxStyle}"
+                         HorizontalAlignment="Center"/>
+
+                <TextBlock Text="{Binding ErrorMessage}" 
+                           Style="{StaticResource ErrorTextStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="{StaticResource SmallTop_StandardBottomMargin}"/>
+
+                <Button Content="Submit" 
+                        Style="{StaticResource DialogButtonStyle}"
+                        Command="{Binding SubmitCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="{StaticResource StandardTopMargin}"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

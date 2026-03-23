@@ -1,0 +1,62 @@
+﻿<Window x:Class="MarkovApp.Views.NodeProperties"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Node Properties"
+        Height="280" Width="450"
+        Background="{StaticResource AppBackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Border Style="{StaticResource DialogBorderStyle}">
+            <StackPanel Width="{StaticResource DialogContentWidth}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <Grid Margin="{StaticResource StandardBottomMargin}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Initial Probability:" 
+                               Style="{StaticResource DialogHeaderStyle}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1"
+                             Width="{StaticResource WideInputTextBoxWidth}" 
+                             Style="{StaticResource DialogTextBoxStyle}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             Text="{Binding InitialProbabilityText}"/>
+                </Grid>
+
+                <Grid Margin="{StaticResource StandardBottomMargin}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="170"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="Probability of staying:" 
+                               Style="{StaticResource DialogHeaderStyle}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+                    <TextBox Grid.Column="1"
+                             Width="{StaticResource WideInputTextBoxWidth}" 
+                             Style="{StaticResource DialogTextBoxStyle}"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             Text="{Binding ProbabilityOfStayingText}"/>
+                </Grid>
+
+                <Button Content="Submit" 
+                        Style="{StaticResource DialogButtonStyle}"
+                        Command="{Binding SaveCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="{StaticResource StandardTopMargin}"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

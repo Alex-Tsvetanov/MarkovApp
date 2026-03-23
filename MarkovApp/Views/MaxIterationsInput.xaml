@@ -1,0 +1,34 @@
+﻿<Window x:Class="MarkovApp.Views.MaxIterationsInput"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Max Iterations"
+        Height="240" Width="400"
+        Background="{StaticResource AppBackgroundBrush}"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+        <Border Style="{StaticResource DialogBorderStyle}">
+            <StackPanel Width="{StaticResource DialogContentWidth}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+
+                <TextBlock Text="Maximum iterations:"
+                           Style="{StaticResource DialogHeaderStyle}"
+                           HorizontalAlignment="Center"
+                           Margin="{StaticResource SmallBottomMargin}"/>
+
+                <TextBox Text="{Binding MaxIterationsText}"
+                         Width="{StaticResource InputTextBoxWidth}"
+                         Style="{StaticResource DialogTextBoxStyle}"
+                         HorizontalAlignment="Center"/>
+
+                <Button Content="Submit"
+                        Style="{StaticResource DialogButtonStyle}"
+                        Command="{Binding SubmitCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="{StaticResource StandardTopMargin}"/>
+
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

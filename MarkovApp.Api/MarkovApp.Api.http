@@ -1,0 +1,33 @@
+@MarkovApp.Api_HostAddress = http://localhost:5264
+
+### Calculate Regular Markov Chain
+POST {{MarkovApp.Api_HostAddress}}/api/markov/calculate
+Content-Type: application/json
+Accept: application/json
+
+{
+  "transitionMatrix": [
+    [0.7, 0.3],
+    [0.4, 0.6]
+  ],
+  "initialStateVector": [0.5, 0.5],
+  "isAbsorbing": false,
+  "maxIterations": 1000
+}
+
+### Calculate Absorbing Markov Chain
+POST {{MarkovApp.Api_HostAddress}}/api/markov/calculate
+Content-Type: application/json
+Accept: application/json
+
+{
+  "transitionMatrix": [
+    [1.0, 0.0, 0.0],
+    [0.5, 0.0, 0.5],
+    [0.0, 0.0, 1.0]
+  ],
+  "initialStateVector": [0.0, 1.0, 0.0],
+  "isAbsorbing": true
+}
+
+###
