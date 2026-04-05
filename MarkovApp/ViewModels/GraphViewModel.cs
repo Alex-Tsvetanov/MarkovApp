@@ -62,6 +62,7 @@ namespace MarkovApp.ViewModels
         public ICommand CanvasRightReleaseCommand { get; }
         public ICommand NodeLeftClickCommand { get; }
         public ICommand NodeRightClickCommand { get; }
+        public ICommand NodeDoubleClickCommand { get; }
         public ICommand EdgeLeftClickCommand { get; }
 
         public GraphViewModel(
@@ -80,6 +81,7 @@ namespace MarkovApp.ViewModels
             CanvasRightReleaseCommand = new RelayCommand<MouseButtonEventArgs>(OnCanvasRightRelease);
             NodeLeftClickCommand = new RelayCommand<Node>(EditNode);
             NodeRightClickCommand = new RelayCommand<Node>(StartEdge);
+            NodeDoubleClickCommand = new RelayCommand<MouseButtonEventArgs>(OnNodeMiddleClick);
             EdgeLeftClickCommand = new RelayCommand<Edge>(EditEdge);
         }
 
@@ -175,6 +177,19 @@ namespace MarkovApp.ViewModels
             {
                 var pos = e.GetPosition((IInputElement)e.Source);
                 UpdateTempEdge(pos);
+            }
+        }
+
+        private void OnNodeMiddleClick(MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Middle)
+                return;
+
+            if ((e.Source as FrameworkElement)?.DataContext is Node node)
+            {
+                e.Handled = true;
+                _graphLogicService.RemoveNode(Nodes, Edges, TransitionMatrix, InitialStateVector, node);
+                _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
             }
         }
 

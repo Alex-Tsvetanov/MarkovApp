@@ -1,4 +1,5 @@
 ﻿using MarkovApp.Infrastructure;
+using MarkovApp.Services;
 using MarkovApp.Services.Interfaces;
 using System.Windows.Input;
 
@@ -10,6 +11,7 @@ namespace MarkovApp.ViewModels
         private readonly IDialogService _dialogService;
         private readonly IAppStateService _appStateService;
         private readonly IValidationService _validationService;
+        private readonly LanguageService _languageService;
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -34,18 +36,21 @@ namespace MarkovApp.ViewModels
         public ICommand LoadFullStateCommand { get; }
 
         public ICommand ClearGraphCommand { get; }
+        public ICommand ToggleLanguageCommand { get; }
 
         public MainViewModel(GraphViewModel graphViewModel,
                              IMarkovCalculatorService calculatorService,
                              IDialogService dialogService,
                              IAppStateService appStateService,
-                             IValidationService validationService)
+                             IValidationService validationService,
+                             LanguageService languageService)
         {
             GraphViewModel = graphViewModel;
             _calculatorService = calculatorService;
             _dialogService = dialogService;
             _appStateService = appStateService;
             _validationService = validationService;
+            _languageService = languageService;
 
             CalculateRegularCommand = new RelayCommand(async _ => await CalculateRegularAsync(), _ => !IsBusy);
             CalculateAbsorbingCommand = new RelayCommand(async _ => await CalculateAbsorbingAsync(), _ => !IsBusy);
@@ -53,6 +58,7 @@ namespace MarkovApp.ViewModels
             SaveFullStateCommand = new RelayCommand(async _ => await SaveStateAsync(), _ => !IsBusy);
             LoadFullStateCommand = new RelayCommand(async _ => await LoadStateAsync(), _ => !IsBusy);
             ClearGraphCommand = new RelayCommand(_ => ClearGraph());
+            ToggleLanguageCommand = new RelayCommand(_ => _languageService.Toggle());
         }
         private async Task CalculateRegularAsync()
         {

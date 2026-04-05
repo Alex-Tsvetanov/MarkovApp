@@ -9,6 +9,8 @@
 
     <Window.Resources>
         <conv:EdgeToGeometryConverter x:Key="EdgeConverter"/>
+        <conv:EdgeToMidpointXConverter x:Key="EdgeMidpointXConverter"/>
+        <conv:EdgeToMidpointYConverter x:Key="EdgeMidpointYConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
         <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </Window.Resources>
@@ -75,6 +77,22 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Top"
                                            Margin="0,-30,0,0"/>
+                                <StackPanel HorizontalAlignment="Center"
+                                            VerticalAlignment="Top"
+                                            Margin="0,-52,0,0">
+                                    <TextBlock Foreground="LightGreen"
+                                               FontSize="10"
+                                               HorizontalAlignment="Center">
+                                        <Run Text="{DynamicResource Str.Node.InitialProb}"/>
+                                        <Run Text="{Binding InitialProbability, StringFormat={}{0:0.##}}"/>
+                                    </TextBlock>
+                                    <TextBlock Foreground="LightYellow"
+                                               FontSize="10"
+                                               HorizontalAlignment="Center">
+                                        <Run Text="{DynamicResource Str.Node.StayProb}"/>
+                                        <Run Text="{Binding ProbabilityOfStaying, StringFormat={}{0:0.##}}"/>
+                                    </TextBlock>
+                                </StackPanel>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                         <i:InvokeCommandAction
@@ -85,6 +103,11 @@
                                         <i:InvokeCommandAction
                                             Command="{Binding DataContext.NodeRightClickCommand, RelativeSource={RelativeSource AncestorType=Canvas}}"
                                             CommandParameter="{Binding}"/>
+                                    </i:EventTrigger>
+                                    <i:EventTrigger EventName="PreviewMouseDown">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding DataContext.NodeDoubleClickCommand, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                            PassEventArgsToCommand="True"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </Grid>
@@ -101,7 +124,7 @@
 
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Canvas>
                                 <Path Data="{Binding Converter={StaticResource EdgeConverter}}"
                                       Stroke="{StaticResource EdgeBorderBrush}"
                                       StrokeThickness="10"/>
@@ -112,12 +135,19 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
                                             <i:InvokeCommandAction
-                                                Command="{Binding DataContext.EdgeLeftClickCommand, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                                                Command="{Binding DataContext.EdgeLeftClickCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                 CommandParameter="{Binding}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Path>
-                            </Grid>
+                                <TextBlock Text="{Binding Value, StringFormat={}{0:0.##}}"
+                                           Foreground="White"
+                                           FontSize="11"
+                                           FontWeight="SemiBold"
+                                           Canvas.Left="{Binding Converter={StaticResource EdgeMidpointXConverter}}"
+                                           Canvas.Top="{Binding Converter={StaticResource EdgeMidpointYConverter}}"
+                                           IsHitTestVisible="False"/>
+                            </Canvas>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
@@ -136,27 +166,30 @@
             </Grid.RowDefinitions>
 
             <StackPanel Grid.Row="0" Margin="10">
-                <Button Content="Regular MC"
+                <Button Content="{DynamicResource Str.RegularMC}"
                         Margin="0,5"
                         Command="{Binding CalculateRegularCommand}"
                         IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
-                <Button Content="Absorbing MC"
+                <Button Content="{DynamicResource Str.AbsorbingMC}"
                         Margin="0,5"
                         Command="{Binding CalculateAbsorbingCommand}"
                         IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
-                <Button Content="Manual Matrix Input"
+                <Button Content="{DynamicResource Str.ManualMatrixInput}"
                         Margin="0,5"
                         Command="{Binding OpenManualMatrixInputCommand}"/>
-                <Button Content="Save State"
+                <Button Content="{DynamicResource Str.SaveState}"
                         Margin="0,5"
                         Command="{Binding SaveFullStateCommand}"/>
-                <Button Content="Load State"
+                <Button Content="{DynamicResource Str.LoadState}"
                         Margin="0,5"
                         Command="{Binding LoadFullStateCommand}"/>
-                <Button Content="Clear State"
+                <Button Content="{DynamicResource Str.ClearState}"
                         Margin="0,10,0,0"
                         Command="{Binding ClearGraphCommand}"
                         IsEnabled="{Binding IsBusy, Converter={StaticResource InverseBooleanConverter}}"/>
+                <Button Content="{DynamicResource Str.Lang}"
+                        Margin="0,10,0,0"
+                        Command="{Binding ToggleLanguageCommand}"/>
             </StackPanel>
 
             <Border Grid.Row="1"
@@ -167,7 +200,7 @@
                     CornerRadius="6"
                     Background="{StaticResource ControlBackgroundBrush}">
                 <DockPanel>
-                    <TextBlock Text="Transition Matrix"
+                    <TextBlock Text="{DynamicResource Str.TransitionMatrix}"
                                DockPanel.Dock="Top"
                                Margin="0,0,0,5"
                                FontWeight="Bold"
@@ -221,7 +254,7 @@
                     CornerRadius="6"
                     Background="{StaticResource ControlBackgroundBrush}">
                 <StackPanel>
-                    <TextBlock Text="Initial State Vector"
+                    <TextBlock Text="{DynamicResource Str.InitialStateVector}"
                                Margin="0,0,0,5"
                                FontWeight="Bold"
                                HorizontalAlignment="Center"/>
@@ -266,7 +299,7 @@
               Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressBar IsIndeterminate="True" Width="200" Height="20"/>
-                <TextBlock Text="Loading..."
+                <TextBlock Text="{DynamicResource Str.Loading}"
                            Foreground="LightGreen"
                            FontWeight="Bold"
                            FontSize="16"

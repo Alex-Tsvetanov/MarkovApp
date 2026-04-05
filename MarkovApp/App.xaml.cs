@@ -30,6 +30,9 @@ namespace MarkovApp
             ConfigureServices(services);
             _serviceProvider = services.BuildServiceProvider();
 
+            // Apply default language
+            _serviceProvider.GetRequiredService<LanguageService>().Apply();
+
             // Create and show main window
             var mainVM = _serviceProvider.GetRequiredService<MainViewModel>();
             var mainWindow = new MainWindow
@@ -54,6 +57,7 @@ namespace MarkovApp
             );
 
             // Register services
+            services.AddSingleton<LanguageService>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IValidationService, ValidationService>();
             services.AddSingleton<IAppStateService, AppStateService>();

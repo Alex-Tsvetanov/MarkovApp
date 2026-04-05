@@ -1,0 +1,18 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="Str.RegularMC">Regular MC</s:String>
+    <s:String x:Key="Str.AbsorbingMC">Absorbing MC</s:String>
+    <s:String x:Key="Str.ManualMatrixInput">Manual Matrix Input</s:String>
+    <s:String x:Key="Str.SaveState">Save State</s:String>
+    <s:String x:Key="Str.LoadState">Load State</s:String>
+    <s:String x:Key="Str.ClearState">Clear State</s:String>
+    <s:String x:Key="Str.TransitionMatrix">Transition Matrix</s:String>
+    <s:String x:Key="Str.InitialStateVector">Initial State Vector</s:String>
+    <s:String x:Key="Str.Loading">Loading...</s:String>
+    <s:String x:Key="Str.Node.InitialProb">p0=</s:String>
+    <s:String x:Key="Str.Node.StayProb">ps=</s:String>
+    <s:String x:Key="Str.Lang">BG</s:String>
+
+</ResourceDictionary>
