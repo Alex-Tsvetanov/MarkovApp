@@ -1,6 +1,7 @@
 # Ръководство за употреба — MarkovApp (Desktop)
 
 Това ръководство описва как се използва десктоп GUI приложението **MarkovApp** за създаване, визуализация и анализ на Марковски вериги.
+<img width="2546" height="1385" alt="image" src="https://github.com/user-attachments/assets/0ce19403-75aa-47a2-ab32-3170f5d8d467" />
 
 ---
 
