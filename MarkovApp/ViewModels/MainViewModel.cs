@@ -169,6 +169,7 @@ namespace MarkovApp.ViewModels
             GraphViewModel.Edges.Clear();
             GraphViewModel.TransitionMatrix.Clear();
             GraphViewModel.InitialStateVector.Clear();
+            GraphViewModel.MatrixNodeLabels.Clear();
             GraphViewModel.ResetOverrides();
             GraphViewModel.ResetNodeCounter();
         }

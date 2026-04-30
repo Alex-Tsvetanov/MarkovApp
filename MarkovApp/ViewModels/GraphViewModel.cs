@@ -38,6 +38,7 @@ namespace MarkovApp.ViewModels
         public ObservableCollection<Edge> Edges { get; } = new();
         public ObservableCollection<Cell> TransitionMatrix { get; } = new();
         public ObservableCollection<InitialState> InitialStateVector { get; } = new();
+        public ObservableCollection<string> MatrixNodeLabels { get; } = new();
 
         public Node? EdgeStartNode
         {
@@ -85,6 +86,44 @@ namespace MarkovApp.ViewModels
             EdgeLeftClickCommand = new RelayCommand<Edge>(EditEdge);
         }
 
+        private void RefreshMatrix()
+        {
+            foreach (var cell in TransitionMatrix)
+                cell.PropertyChanged -= OnCellValueChanged;
+
+            _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+
+            MatrixNodeLabels.Clear();
+            foreach (var node in Nodes)
+                MatrixNodeLabels.Add(node.Id);
+
+            foreach (var cell in TransitionMatrix)
+                cell.PropertyChanged += OnCellValueChanged;
+        }
+
+        private void OnCellValueChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(Cell.Value) || sender is not Cell cell) return;
+
+            if (cell.Row == cell.Column)
+            {
+                var node = Nodes.ElementAtOrDefault(cell.Row);
+                if (node != null)
+                    node.ProbabilityOfStaying = cell.Value;
+            }
+            else
+            {
+                var fromNode = Nodes.ElementAtOrDefault(cell.Row);
+                var toNode = Nodes.ElementAtOrDefault(cell.Column);
+                if (fromNode != null && toNode != null)
+                {
+                    var edge = Edges.FirstOrDefault(ex => ex.FromNode == fromNode && ex.ToNode == toNode);
+                    if (edge != null)
+                        edge.Value = cell.Value;
+                }
+            }
+        }
+
         public void SetManualMode()
         {
             IsManualOverride = true;
@@ -116,7 +155,7 @@ namespace MarkovApp.ViewModels
 
             _graphLogicService.AddNode(Nodes, InitialStateVector, position, ref _nodeCounter);
 
-            _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+            RefreshMatrix();
         }
 
         private void StartEdge(Node fromNode)
@@ -143,7 +182,7 @@ namespace MarkovApp.ViewModels
 
             _graphLogicService.AddEdge(Edges, EdgeStartNode, toNode);
             ClearTempEdge();
-            _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+            RefreshMatrix();
         }
 
         private void ClearTempEdge()
@@ -189,7 +228,7 @@ namespace MarkovApp.ViewModels
             {
                 e.Handled = true;
                 _graphLogicService.RemoveNode(Nodes, Edges, TransitionMatrix, InitialStateVector, node);
-                _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+                RefreshMatrix();
             }
         }
 
@@ -197,14 +236,14 @@ namespace MarkovApp.ViewModels
         {
             var nodeVM = new NodePropertiesViewModel(node, _validationService, _dialogService);
             if (_dialogService.ShowNodeProperties(nodeVM) == true)
-                _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+                RefreshMatrix();
         }
 
         private void EditEdge(Edge edge)
         {
             var edgeVM = new EdgePropertiesViewModel(edge, _validationService, _dialogService);
             if (_dialogService.ShowEdgeProperties(edgeVM) == true)
-                _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+                RefreshMatrix();
         }
 
         public CalculationData ToCalculationData()
@@ -215,6 +254,9 @@ namespace MarkovApp.ViewModels
         public void SyncCalculationData(CalculationData data)
         {
             _graphService.SyncCalculationData(Nodes, Edges, TransitionMatrix, InitialStateVector, data);
+            MatrixNodeLabels.Clear();
+            for (int i = 0; i < data.InitialStateVector.Length; i++)
+                MatrixNodeLabels.Add(i.ToString());
         }
 
         public AppState ToAppState(bool includeGraph = true)
@@ -257,7 +299,7 @@ namespace MarkovApp.ViewModels
                     Edges.Add(new Edge(fromNode, toNode) { Value = e.Value });
             }
 
-            _graphLogicService.UpdateMatrixFromGraph(Nodes, Edges, TransitionMatrix, InitialStateVector);
+            RefreshMatrix();
             _nodeCounter = Nodes.Count;
         }
 

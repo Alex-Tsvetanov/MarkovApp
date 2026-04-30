@@ -208,40 +208,93 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto"
                                   HorizontalScrollBarVisibility="Auto"
                                   MaxHeight="350">
-                        <ItemsControl ItemsSource="{Binding GraphViewModel.TransitionMatrix}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding GraphViewModel.Nodes.Count}"
-                                                 HorizontalAlignment="Center"
-                                                 VerticalAlignment="Top"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="50"
-                                             Height="50"
-                                             Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
-                                             HorizontalContentAlignment="Center"
-                                             VerticalContentAlignment="Center"
-                                             Background="#222222"
-                                             Foreground="LightGreen">
-                                        <TextBox.ToolTip>
-                                            <ToolTip Background="{StaticResource ControlBackgroundBrush}" 
-                                                     Foreground="LightGreen"
-                                                     Padding="4">
-                                                <TextBlock>
-                                                    <Run Text="Cell ("/>
-                                                    <Run Text="{Binding Row , Mode = OneWay}"/>
-                                                    <Run Text=", "/>
-                                                    <Run Text="{Binding Column, Mode = OneWay}"/>
-                                                    <Run Text=")"/>
-                                                </TextBlock>
-                                            </ToolTip>
-                                        </TextBox.ToolTip>
-                                    </TextBox>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Row="0" Grid.Column="0" Width="30" Height="30"/>
+
+                            <ItemsControl Grid.Row="0" Grid.Column="1"
+                                          ItemsSource="{Binding GraphViewModel.MatrixNodeLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="50"
+                                                   Text="{Binding}"
+                                                   FontWeight="Bold"
+                                                   Foreground="LightCyan"
+                                                   TextAlignment="Center"
+                                                   VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl Grid.Row="1" Grid.Column="0"
+                                          ItemsSource="{Binding GraphViewModel.MatrixNodeLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="30" Height="50">
+                                            <TextBlock Text="{Binding}"
+                                                       FontWeight="Bold"
+                                                       Foreground="LightCyan"
+                                                       TextAlignment="Center"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+
+                            <ItemsControl Grid.Row="1" Grid.Column="1"
+                                          ItemsSource="{Binding GraphViewModel.TransitionMatrix}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="{Binding GraphViewModel.Nodes.Count}"
+                                                     VerticalAlignment="Top"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="50"
+                                                 Height="50"
+                                                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}"
+                                                 HorizontalContentAlignment="Center"
+                                                 VerticalContentAlignment="Center"
+                                                 Background="#222222"
+                                                 Foreground="LightGreen">
+                                            <TextBox.ToolTip>
+                                                <ToolTip Background="{StaticResource ControlBackgroundBrush}" 
+                                                         Foreground="LightGreen"
+                                                         Padding="4">
+                                                    <TextBlock>
+                                                        <Run Text="Cell ("/>
+                                                        <Run Text="{Binding Row , Mode = OneWay}"/>
+                                                        <Run Text=", "/>
+                                                        <Run Text="{Binding Column, Mode = OneWay}"/>
+                                                        <Run Text=")"/>
+                                                    </TextBlock>
+                                                </ToolTip>
+                                            </TextBox.ToolTip>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
                     </ScrollViewer>
                 </DockPanel>
             </Border>
@@ -259,36 +312,54 @@
                                FontWeight="Bold"
                                HorizontalAlignment="Center"/>
                     <ScrollViewer HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Disabled"
-                                  MaxHeight="100">
-                        <ItemsControl ItemsSource="{Binding GraphViewModel.InitialStateVector}">
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBox Width="70"
-                                             Margin="2"
-                                             Background="#222222"
-                                             Foreground="LightGreen"
-                                             HorizontalContentAlignment="Center"
-                                             Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                        <TextBox.ToolTip>
-                                            <ToolTip Background="{StaticResource ControlBackgroundBrush}"
-                                                     Foreground="LightGreen"
-                                                     Padding="4">
-                                                <TextBlock>
-                                                    <Run Text="State : "/>
-                                                    <Run Text="{Binding Index ,Mode=OneWay}"/>
-                                                </TextBlock>
-                                            </ToolTip>
-                                        </TextBox.ToolTip>
-                                    </TextBox>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                  VerticalScrollBarVisibility="Disabled">
+                        <StackPanel HorizontalAlignment="Center">
+                            <ItemsControl ItemsSource="{Binding GraphViewModel.MatrixNodeLabels}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Width="70"
+                                                   Margin="2"
+                                                   Text="{Binding}"
+                                                   FontWeight="Bold"
+                                                   Foreground="LightCyan"
+                                                   TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <ItemsControl ItemsSource="{Binding GraphViewModel.InitialStateVector}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBox Width="70"
+                                                 Margin="2"
+                                                 Background="#222222"
+                                                 Foreground="LightGreen"
+                                                 HorizontalContentAlignment="Center"
+                                                 Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                            <TextBox.ToolTip>
+                                                <ToolTip Background="{StaticResource ControlBackgroundBrush}"
+                                                         Foreground="LightGreen"
+                                                         Padding="4">
+                                                    <TextBlock>
+                                                        <Run Text="State : "/>
+                                                        <Run Text="{Binding Index ,Mode=OneWay}"/>
+                                                    </TextBlock>
+                                                </ToolTip>
+                                            </TextBox.ToolTip>
+                                        </TextBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </ScrollViewer>
                 </StackPanel>
             </Border>
